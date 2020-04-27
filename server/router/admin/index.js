@@ -34,7 +34,12 @@ module.exports = app => {
     })
 
     //5.删除分类
-    router.delete('/category/:id', async())
+    router.delete('/category/:id', async(req, res) => {
+        const id = req.params.id;
+        let result = await categoryModel.findByIdAndDelete(id)
+        console.log("删除结果", result)
+        res.send({ status: 0, msg: '成功' })
+    })
 
     app.use('/admin/api', router)
 }
