@@ -8,9 +8,14 @@ module.exports = app => {
     // 1.创建分类
     router.post('/category', async(req, res) => {
 
-        const result = await categoryModel.create(req.body)
+        try {
+            const result = await categoryModel.create(req.body)
 
-        res.send(result)
+            res.send(result)
+        } catch (error) {
+            console.log(error)
+        }
+
     })
 
     // 2.编辑分类
@@ -21,7 +26,7 @@ module.exports = app => {
 
     // 3.查找分类列表
     router.get('/category', async(req, res) => {
-        const result = await categoryModel.find()
+        const result = await categoryModel.find().populate('parent').limit(10)
 
         res.send(result)
     })

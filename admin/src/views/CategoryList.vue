@@ -4,6 +4,8 @@
     <el-table :data="categoryList">
         <el-table-column prop="_id" label="id" width="240">
         </el-table-column>
+        <el-table-column prop="parent.name" label="父级分类" width="220">
+        </el-table-column>
         <el-table-column prop="name" label="分类名称" width="220">
         </el-table-column>
 
