@@ -9,6 +9,16 @@
                     <el-menu-item index="/category/list">分类列表</el-menu-item>
                     <el-menu-item index="/category/create">新建分类</el-menu-item>
                 </el-menu-item-group>
+                 <el-menu-item-group>
+                    <template slot="title">物品</template>
+                    <el-menu-item index="/goods/list">物品列表</el-menu-item>
+                    <el-menu-item index="/goods/create">新建物品</el-menu-item>
+                </el-menu-item-group>
+                 <el-menu-item-group>
+                    <template slot="title">英雄</template>
+                    <el-menu-item index="/heroes/list">英雄列表</el-menu-item>
+                    <el-menu-item index="/heroes/create">新建英雄</el-menu-item>
+                </el-menu-item-group>
                 <!-- <el-menu-item-group title="分组2">
                     <el-menu-item index="1-3">选项3</el-menu-item>
                 </el-menu-item-group>

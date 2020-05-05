@@ -1,18 +1,21 @@
 <template>
 <div class="categoryList">
-    <h2>分类列表</h2>
-    <el-table :data="categoryList">
+    <h2>英雄列表</h2>
+    <el-table :data="model">
         <el-table-column prop="_id" label="id" width="240">
         </el-table-column>
-        <el-table-column prop="parent.name" label="父级分类" width="220">
+        <el-table-column prop="name" label="英雄名称" width="220">
         </el-table-column>
-        <el-table-column prop="name" label="分类名称" width="220">
+        <el-table-column prop="avatar" label="英雄头像" width="220">
+            <template slot-scope="scope">
+                <img :src="scope.row.avatar" style="height:3em" alt="" >
+            </template>
         </el-table-column>
 
         <el-table-column label="操作" width="260">
             <template slot-scope="scope">
                 <el-button @click="del(scope.row)" type="danger" size="small">删除</el-button>
-                <el-button type="primary" @click="$router.push(`/category/edit/${scope.row._id}`)" size="small">编辑</el-button>
+                <el-button type="primary" @click="$router.push(`/heroes/edit/${scope.row._id}`)" size="small">编辑</el-button>
             </template>
         </el-table-column>
 
@@ -26,26 +29,26 @@ export default {
     props: {},
     data() {
         return {
-            categoryList: []
+            model: []
         }
     },
 
     methods: {
         // 获取列表数据
         async fetch() {
-            const res = await this.$http.get('restful/categories');
-            this.categoryList = res.data
+            const res = await this.$http.get('restful/heroes');
+            this.model = res.data
         },
 
         async del(item) {
 
-            this.$confirm(`此操作将永久删除"${item.name}"分类, 是否继续?`, '提示', {
+            this.$confirm(`此操作将永久删除"${item.name}"英雄, 是否继续?`, '提示', {
                 confirmButtonText: '确定',
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(async () => {
 
-                let res = await this.$http.delete(`restful/categories/${item._id}`)
+                let res = await this.$http.delete(`restful/heroes/${item._id}`)
                 console.log(res)
                 this.$message({
                     message: '恭喜你，删除成功',

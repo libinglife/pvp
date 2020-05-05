@@ -39,7 +39,7 @@ export default {
     methods: {
         async create() {
             console.log("创建：",this.category)
-            const result = await this.$http.post('category', this.category)
+            const result = await this.$http.post('restful/categories/', this.category)
             console.log(result);
             this.$message({
                 message: '恭喜你，创建成功',
@@ -50,7 +50,7 @@ export default {
 
         // 获取父类列表
         async getParents(){
-            const result = await this.$http.get('category')
+            const result = await this.$http.get('restful/categories/')
             console.log(result);
             this.parents = result.data
         }

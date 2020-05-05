@@ -39,7 +39,7 @@ export default {
     methods: {
         async save() {
             console.log("编辑：",this.category)
-            const result = await this.$http.put(`category/${this.id}`, this.category)
+            const result = await this.$http.put(`restful/categories/${this.id}`, this.category)
             console.log(result);
             this.$message({
                 message: '恭喜你，编辑成功',
@@ -49,14 +49,14 @@ export default {
         },
 
         async getDetailCategory(){
-            const result = await this.$http.get(`category/detail/${this.id}`)
+            const result = await this.$http.get(`restful/categories/detail/${this.id}`)
             console.log(result);
             // this.category.name=result.data.name
             this.category=result.data
         },
          // 获取父类列表
         async getParents(){
-            const result = await this.$http.get('category')
+            const result = await this.$http.get('restful/categories/')
             console.log(result);
             this.parents = result.data
 
