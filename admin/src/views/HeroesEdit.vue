@@ -5,6 +5,18 @@
         <el-form-item label="英雄名称">
             <el-input v-model="model.name"></el-input>
         </el-form-item>
+        <el-form-item label="英雄称号">
+            <el-input v-model="model.title"></el-input>
+        </el-form-item>
+        <el-form-item label="英雄种类">
+            <el-select v-model="model.categories" placeholder="请选择种类">
+                <!-- <el-option v-for="item of herosCategory" :key="item._id" 
+                :label="item.name" :value="item._id"></el-option> -->
+
+                <el-option v-for="item in herosCategory" :key="item._id" :label="item.name" :value="item._id">
+                </el-option>
+            </el-select>
+        </el-form-item>
          <el-form-item label="英雄图片">
             <el-upload class="avatar-uploader" 
             :action="$http.defaults.baseURL+'upload'" 
@@ -32,8 +44,12 @@ export default {
         return {
             model: {
                 name: '',
-                avatar:''
+                avatar:'',
+                categories:''
+
             },
+
+            herosCategory:[],
         }
     },
     props:{
@@ -66,10 +82,17 @@ export default {
 
         beforeUpload(res){
             console.log("上传之前",res)
+        },
+        // 获取英雄分类
+        async fetchHerosCategory(){
+            let result= await this.$http.get('restful/categories');
+            console.log(result)
+            this.herosCategory= result.data
         }
     },
     created () {
-        this.fetch()
+        this.fetch();
+        this.fetchHerosCategory()
     },
 };
 </script>
