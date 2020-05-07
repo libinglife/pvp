@@ -9,24 +9,58 @@
             <el-input v-model="model.title"></el-input>
         </el-form-item>
         <el-form-item label="英雄种类">
-            <el-select v-model="model.categories" placeholder="请选择种类">
-                <!-- <el-option v-for="item of herosCategory" :key="item._id" 
-                :label="item.name" :value="item._id"></el-option> -->
-
+            <el-select v-model="model.categories" multiple placeholder="请选择种类">
                 <el-option v-for="item in herosCategory" :key="item._id" :label="item.name" :value="item._id">
                 </el-option>
             </el-select>
         </el-form-item>
-         <el-form-item label="英雄图片">
-            <el-upload class="avatar-uploader" 
-            :action="$http.defaults.baseURL+'upload'" 
-            :show-file-list="false" 
-            :on-success="onSuccess" 
-            :before-upload="beforeUpload">
+        <el-form-item label="难度">
+            <el-rate style="margin-top:0.6rem" show-score :max="10" v-model="model.scores.difficult">
+            </el-rate>
+        </el-form-item>
+        <el-form-item label="技能">
+            <el-rate style="margin-top:0.6rem" show-score :max="10" v-model="model.scores.skills">
+            </el-rate>
+        </el-form-item>
+        <el-form-item label="攻击">
+            <el-rate style="margin-top:0.6rem" show-score :max="10" v-model="model.scores.attack">
+            </el-rate>
+        </el-form-item>
+        <el-form-item label="生存">
+            <el-rate style="margin-top:0.6rem" show-score :max="10" v-model="model.scores.survive">
+            </el-rate>
+        </el-form-item>
+        <el-form-item label="英雄图片">
+            <el-upload class="avatar-uploader" :action="$http.defaults.baseURL+'upload'" :show-file-list="false" :on-success="onSuccess" :before-upload="beforeUpload">
                 <img v-if="model.avatar" :src="model.avatar" class="avatar">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
         </el-form-item>
+
+
+        <el-form-item label="顺风出装">
+            <el-select v-model="model.goods1" multiple placeholder="请选择出装">
+                <el-option v-for="item in goods" :key="item._id" :label="item.name" :value="item._id">
+                </el-option>
+            </el-select>
+        </el-form-item>
+        <el-form-item label="逆风出装">
+            <el-select v-model="model.goods2" multiple placeholder="请选择出装">
+                <el-option v-for="item in goods" :key="item._id" :label="item.name" :value="item._id">
+                </el-option>
+            </el-select>
+        </el-form-item>
+
+        <el-form-item label="使用技巧">
+            <el-input v-model="model.useTips" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="对抗技巧">
+            <el-input v-model="model.battleTips" type="textarea"></el-input>
+        </el-form-item>
+        <el-form-item label="团战技巧">
+            <el-input v-model="model.teamTips" type="textarea"></el-input>
+        </el-form-item>
+
         <el-form-item>
             <el-button type="primary" native-type="submit">保存</el-button>
         </el-form-item>
@@ -44,20 +78,22 @@ export default {
         return {
             model: {
                 name: '',
-                avatar:'',
-                categories:''
+                avatar: '',
+                categories: [],
+                scores: {}
 
             },
 
-            herosCategory:[],
+            herosCategory: [], //分类
+            goods:[] //装备 
         }
     },
-    props:{
-        id:String
+    props: {
+        id: String
     },
     methods: {
         async save() {
-            console.log("编辑：",this.model)
+            console.log("编辑：", this.model)
             const result = await this.$http.put(`restful/heroes/${this.id}`, this.model)
             console.log(result);
             this.$message({
@@ -67,31 +103,38 @@ export default {
             this.$router.push('/heroes/list')
         },
 
-         // 获取英雄数据详情
-        async fetch(){
+        // 获取英雄数据详情
+        async fetch() {
             const result = await this.$http.get(`restful/heroes/detail/${this.id}`)
-            console.log(result);
-            // this.category.name=result.data.name
-            this.model=result.data
+
+            Object.assign(this.model, result.data);
+            console.log(this.model)
         },
-         onSuccess(res){
+        onSuccess(res) {
             console.log(res)
             // this.$set(this.model,'icon',res.url)
             this.model.avatar = res.url;
         },
 
-        beforeUpload(res){
-            console.log("上传之前",res)
+        beforeUpload(res) {
+            console.log("上传之前", res)
         },
         // 获取英雄分类
-        async fetchHerosCategory(){
-            let result= await this.$http.get('restful/categories');
+        async fetchHerosCategory() {
+            let result = await this.$http.get('restful/categories');
             console.log(result)
-            this.herosCategory= result.data
+            this.herosCategory = result.data
+        },
+        // 获取英雄分类
+        async fetchGoods() {
+            let result = await this.$http.get('restful/goods');
+            console.log(result)
+            this.goods = result.data
         }
     },
-    created () {
+    created() {
         this.fetch();
+        this.fetchGoods();
         this.fetchHerosCategory()
     },
 };

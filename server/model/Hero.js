@@ -31,9 +31,6 @@ const schema = new mongoose.Schema({
         hero: { type: mongoose.SchemaTypes.ObjectId, ref: 'Hero' },
         description: { type: String }
     }]
-
-
-
 })
 
 module.exports = mongoose.model('Hero', schema)
