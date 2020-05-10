@@ -12,9 +12,9 @@
             <el-input v-model="model.title"></el-input>
         </el-form-item>
         <el-form-item label="文章内容">
-            <el-input v-model="model.body"></el-input>
+            <VueEditor useCustomImageHandler @image-added="handleImageAdded" v-model="model.body"></VueEditor>
         </el-form-item>
-        
+
         <el-form-item>
             <el-button type="primary" native-type="submit">提交</el-button>
         </el-form-item>
@@ -27,6 +27,9 @@
 </style>
 
 <script>
+import {
+    VueEditor
+} from 'vue2-editor';
 export default {
     data() {
         return {
@@ -34,15 +37,18 @@ export default {
                 name: '',
                 // parent:''
             },
-            parents:[]
+            parents: []
         }
     },
-    created () {
+    components: {
+        VueEditor,
+    },
+    created() {
         this.getParents();
     },
     methods: {
         async create() {
-            console.log("创建：",this.model)
+            console.log("创建：", this.model)
             const result = await this.$http.post('restful/articles/', this.model)
             console.log(result);
             this.$message({
@@ -53,10 +59,22 @@ export default {
         },
 
         // 获取父类列表
-        async getParents(){
+        async getParents() {
             const result = await this.$http.get('restful/categories/')
             console.log(result);
             this.parents = result.data
+        },
+        // 富文本上传图片钩子函数
+        async handleImageAdded(file, Editor, cursorLocation, resetUploader) {
+            const formData = new FormData();
+            formData.append('file', file);
+            const result = await this.$http.post('/upload', formData);
+
+            const url = result.data.url;
+            // 插入编辑器
+            Editor.insertEmbed(cursorLocation, 'image', url);
+            resetUploader()
+
         }
     },
 };

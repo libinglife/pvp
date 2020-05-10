@@ -12,7 +12,7 @@
             <el-input v-model="model.title"></el-input>
         </el-form-item>
         <el-form-item label="文章内容">
-            <el-input v-model="model.body"></el-input>
+            <VueEditor useCustomImageHandler @image-added="handleImageAdded" v-model="model.body"></VueEditor>
         </el-form-item>
         
         <el-form-item>
@@ -27,6 +27,7 @@
 </style>
 
 <script>
+import { VueEditor } from 'vue2-editor';
 export default {
     data() {
         return {
@@ -38,6 +39,9 @@ export default {
             },
             parents:[]
         }
+    },
+    components: {
+        VueEditor,
     },
     props:{
         id:String
@@ -65,6 +69,17 @@ export default {
             const result = await this.$http.get('restful/categories/')
             console.log(result);
             this.parents = result.data
+        },
+        // 富文本上传图片钩子函数
+        async handleImageAdded(file, Editor, cursorLocation, resetUploader){
+            const formData = new FormData();
+            formData.append('file',file);
+            const result = await this.$http.post('/upload',formData);
+
+            const url = result.data.url;
+            // 插入编辑器
+            Editor.insertEmbed(cursorLocation,'image',url);
+            resetUploader()
 
         }
     },

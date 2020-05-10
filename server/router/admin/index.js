@@ -22,8 +22,13 @@ module.exports = app => {
 
     // 2.编辑分类
     router.put('/:id', async(req, res) => {
-        const result = await req.Model.findByIdAndUpdate(req.params.id, req.body)
-        res.send(result)
+        try {
+            const result = await req.Model.findByIdAndUpdate(req.params.id, req.body)
+            res.send({ "code": 0, "msg": "修改成功" })
+
+        } catch (error) {
+            res.send({ "code": -1, "msg": "修改失败" })
+        }
     })
 
     // 3.查找分类列表
