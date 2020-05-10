@@ -17,6 +17,13 @@ import HeroesEdit from '../views/HeroesEdit.vue'
 import HeroesCreate from '../views/HeroesCreate.vue'
 import HeroesList from '../views/HeroesList.vue'
 
+// 文章
+import ArticleEdit from '../views/ArticleEdit.vue'
+import ArticleCreate from '../views/ArticleCreate.vue'
+import ArticleList from '../views/ArticleList.vue'
+
+
+
 
 Vue.use(VueRouter)
 
@@ -64,6 +71,19 @@ const routes = [{
             path: '/heroes/edit/:id',
             props: true, //把参数添加到组件属性上
             component: HeroesEdit
+        }, {
+            name: 'articleList',
+            path: '/article/list',
+            component: ArticleList
+        }, {
+            name: 'articleEdit',
+            path: '/article/edit/:id',
+            props: true, //把参数添加到组件属性上
+            component: ArticleEdit
+        }, {
+            name: 'articleCreate',
+            path: '/article/create',
+            component: ArticleCreate
         }]
     },
 
