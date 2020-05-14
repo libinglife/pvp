@@ -22,6 +22,10 @@ import ArticleEdit from '../views/ArticleEdit.vue'
 import ArticleCreate from '../views/ArticleCreate.vue'
 import ArticleList from '../views/ArticleList.vue'
 
+// 广告
+import AdsEdit from '../views/AdsEdit.vue'
+import AdsCreate from '../views/AdsCreate.vue'
+import AdsList from '../views/AdsList.vue'
 
 
 
@@ -84,6 +88,19 @@ const routes = [{
             name: 'articleCreate',
             path: '/article/create',
             component: ArticleCreate
+        }, {
+            name: 'adsList',
+            path: '/ads/list',
+            component: AdsList
+        }, {
+            name: 'adsEdit',
+            path: '/ads/edit/:id',
+            props: true, //把参数添加到组件属性上
+            component: AdsEdit
+        }, {
+            name: 'adsCreate',
+            path: '/ads/create',
+            component: AdsCreate
         }]
     },
 
