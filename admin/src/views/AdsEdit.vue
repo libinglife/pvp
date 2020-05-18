@@ -34,7 +34,6 @@
 
         </el-row>
       
-        
         <el-form-item>
             <el-button type="primary" native-type="submit">提交</el-button>
         </el-form-item>
@@ -42,8 +41,11 @@
 </div>
 </template>
 
-<style>
-
+<style scoped>
+    .avatar{
+    width:auto;
+    height: 5rem;
+    }
 </style>
 
 <script>

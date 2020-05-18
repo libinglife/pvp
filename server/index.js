@@ -5,6 +5,8 @@ const path = require('path')
 
 const app = express()
 
+// 设置秘钥
+app.set('secret', 'libing123')
 
 // 静态资源
 app.use('/upload', express.static(path.join(__dirname, '/upload')))
@@ -27,6 +29,9 @@ app.get('/', async(req, res) => {
 // 调用路由admin
 require('./router/admin/index')(app)
 require('./router/upload.js')(app)
+
+// 登录路由
+require('./router/admin/login')(app)
 
 
 app.listen(3002, () => {

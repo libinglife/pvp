@@ -42,8 +42,11 @@
 </div>
 </template>
 
-<style>
-
+<style scoped>
+  .avatar{
+    width:auto;
+    height: 5rem;
+    }
 </style>
 
 <script>

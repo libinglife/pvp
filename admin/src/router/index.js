@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+
+
+import Login from '../views/Login.vue'
 import Main from '../views/Main.vue'
+
+
 
 // 分类
 import CategoryEdit from '../views/CategoryEdit.vue'
@@ -27,11 +32,20 @@ import AdsEdit from '../views/AdsEdit.vue'
 import AdsCreate from '../views/AdsCreate.vue'
 import AdsList from '../views/AdsList.vue'
 
+// 管理员
+import AdminUsersEdit from '../views/AdminUsersEdit.vue'
+import AdminUsersCreate from '../views/AdminUsersCreate.vue'
+import AdminUsersList from '../views/AdminUsersList.vue'
 
 
 Vue.use(VueRouter)
 
 const routes = [{
+        path: '/login',
+        name: "login",
+        component: Login
+    },
+    {
         path: '/',
         name: 'main',
         redirect: '/category/list',
@@ -101,6 +115,19 @@ const routes = [{
             name: 'adsCreate',
             path: '/ads/create',
             component: AdsCreate
+        }, {
+            name: 'adminUsersList',
+            path: '/admin_users/list',
+            component: AdminUsersList
+        }, {
+            name: 'adminUsersEdit',
+            path: '/admin_users/edit/:id',
+            props: true, //把参数添加到组件属性上
+            component: AdminUsersEdit
+        }, {
+            name: 'adminUsersCreate',
+            path: '/admin_users/create',
+            component: AdminUsersCreate
         }]
     },
 
