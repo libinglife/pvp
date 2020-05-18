@@ -4,6 +4,8 @@ module.exports = app => {
 
     const jwt = require('jsonwebtoken')
 
+    const assert = require('http-assert')
+
     const router = express.Router({
         mergeParams: true //合并路由参数
     })
@@ -25,41 +27,50 @@ module.exports = app => {
     router.put('/:id', async(req, res) => {
         try {
             const result = await req.Model.findByIdAndUpdate(req.params.id, req.body)
-            res.send({ "code": 0, "msg": "修改成功" })
+            res.send({
+                "code": 0,
+                "msg": "修改成功"
+            })
 
         } catch (error) {
-            res.send({ "code": -1, "msg": "修改失败" })
+            res.send({
+                "code": -1,
+                "msg": "修改失败"
+            })
         }
     })
 
     // 3.查找分类列表
     router.get('/', async(req, res, next) => {
+
         // 1.获取客户端请求头中的token
-        console.log(req.headers.authorization);
-        if (!req.headers.authorization) {
-            res.send({
-                message: "请先登陆"
-            })
-        }
+        console.log("授权：", req.headers.authorization);
 
-        let token = String(req.headers.authorization).split(' ').pop();
+        let token = String(req.headers.authorization || '').split(' ').pop();
+        console.log("token:", token)
+        assert(token, 401, "请提供jwt token")
 
-        console.log(token)
-            // 2.根据app 设置的秘钥进行验证秘钥的合法性
-        let resultInfo = jwt.verify(token, app.get('secret'));
-        console.log(resultInfo);
+        // 2.根据app 设置的秘钥进行验证秘钥的合法性
+
+        let resultInfo = jwt.verify(token, app.get('secret'), (err, decode) => {
+            if (err) {
+                console.log(err);
+                assert(null, 422, "无效的token");
+            } else {
+                console.log("解析结果", decode)
+                return decode;
+            }
+        });
+        console.log('56：', resultInfo);
+
+
 
         //3.根据token 解析出的id ，在数据库中查询是否有此用户 
         let AdminUser = require('../../model/AdminUser')
         let user = await AdminUser.findById(resultInfo.id);
         console.log("用户信息", user)
-        if (!user) {
-            res.status(401).send({
-                message: '请先登录'
-            })
-        }
+        assert(user, 401, "请先登录")
         req.user = user;
-
 
         await next();
     }, async(req, res) => {
@@ -89,7 +100,10 @@ module.exports = app => {
         const id = req.params.id;
         let result = await req.Model.findByIdAndDelete(id)
         console.log("删除结果", result)
-        res.send({ status: 0, msg: '成功' })
+        res.send({
+            status: 0,
+            msg: '成功'
+        })
     })
 
     app.use('/admin/api/restful/:resource', async(req, res, next) => {
@@ -103,5 +117,12 @@ module.exports = app => {
     }, router)
 
 
+    // 错误处理函数
+    app.use(async(err, req, res, next) => {
+        console.log("错误：", err.status);
+        res.status(err.status || 500).send({
+            message: err.message
+        })
+    })
 
 }
