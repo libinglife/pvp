@@ -8,7 +8,8 @@
         </el-form-item>
         <el-form-item label="物品图片">
             <el-upload class="avatar-uploader" 
-            :action="$http.defaults.baseURL+'upload'" 
+            :action="uploadUrl" 
+            :headers="getAuthHeader()"
             :show-file-list="false" 
             :on-success="onSuccess" 
             :before-upload="beforeUpload">
@@ -58,11 +59,14 @@ export default {
         return {
             model: {
                 name: ''
+            },
+            myHeders:{
+                Authorization:'Bearer '+localStorage.token
             }
         }
     },
     created() {
-
+        
     },
     methods: {
         async create() {
@@ -84,7 +88,7 @@ export default {
 
         beforeUpload(res){
             console.log("上传之前",res)
-        }
+        },
 
     },
 };

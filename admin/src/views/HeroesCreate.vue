@@ -36,7 +36,7 @@
                 </el-form-item>
 
                 <el-form-item label="英雄图片">
-                    <el-upload class="avatar-uploader" :action="$http.defaults.baseURL + 'upload'" :show-file-list="false" :on-success="onSuccess" :before-upload="beforeUpload">
+                    <el-upload class="avatar-uploader" :action="uploadUrl" :headers="getAuthHeader()" :show-file-list="false" :on-success="onSuccess" :before-upload="beforeUpload">
                         <img v-if="model.avatar" :src="model.avatar" class="avatar" />
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
@@ -75,7 +75,7 @@
                             <el-input v-model="item.name"></el-input>
                         </el-form-item>
                         <el-form-item label="技能图标">
-                            <el-upload class="avatar-uploader" :action="$http.defaults.baseURL+'upload'" :onSuccess="res=>$set(item,'icon',res.url)" :show-file-list="false">
+                            <el-upload class="avatar-uploader" :action="uploadUrl" :headers="getAuthHeader()" :onSuccess="res=>$set(item,'icon',res.url)" :show-file-list="false">
                                 <img v-if="item.icon" :src="item.icon" class="avatar" />
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
@@ -144,7 +144,7 @@ export default {
                 name: "",
                 avatar: "",
                 scores: {},
-                skills:[]
+                skills: []
             },
             herosCategory: [], //分类
             goods: [], //装备

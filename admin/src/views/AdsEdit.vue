@@ -19,7 +19,8 @@
                     <el-input v-model="item.url"></el-input>
                 </el-form-item>
                 <el-form-item label="广告图标">
-                    <el-upload class="avatar-uploader" :action="$http.defaults.baseURL+'upload'" :onSuccess="res=>$set(item,'image',res.url)" :show-file-list="false">
+                    <el-upload class="avatar-uploader"  :action="uploadUrl" 
+                    :headers="getAuthHeader()" :onSuccess="res=>$set(item,'image',res.url)" :show-file-list="false">
                         <img v-if="item.image" :src="item.image" class="avatar" />
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>

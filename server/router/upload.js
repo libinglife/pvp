@@ -1,3 +1,4 @@
+const authMiddleware = require('../middleware/auth')
 module.exports = (app) => {
     const path = require('path')
         // 上传图片
@@ -6,7 +7,7 @@ module.exports = (app) => {
         dest: path.join(__dirname, '../upload')
 
     })
-    app.post('/admin/api/upload', upload.single('file'), async(req, res) => {
+    app.post('/admin/api/upload', authMiddleware(), upload.single('file'), async(req, res) => {
 
         // const url = `${req.host}/upload/${req.file.filename}${path.extname(req.file.originalname)}`
         console.log(req.file)

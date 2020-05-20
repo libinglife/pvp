@@ -33,6 +33,14 @@ require('./router/upload.js')(app)
 // 登录路由
 require('./router/admin/login')(app)
 
+// 错误处理函数
+app.use(async(err, req, res, next) => {
+    console.log("错误：", err.status);
+    res.status(err.status || 500).send({
+        message: err.message
+    })
+})
+
 
 app.listen(3002, () => {
     console.log("localhost:3002")

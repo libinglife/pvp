@@ -5,9 +5,10 @@
         <el-form-item label="物品名称">
             <el-input v-model="model.name"></el-input>
         </el-form-item>
-         <el-form-item label="物品图片">
+        <el-form-item label="物品图片">
             <el-upload class="avatar-uploader" 
-            :action="$http.defaults.baseURL+'upload'" 
+            :action="uploadUrl" 
+            :headers="getAuthHeader()" 
             :show-file-list="false" 
             :on-success="onSuccess" 
             :before-upload="beforeUpload">
@@ -35,12 +36,12 @@ export default {
             },
         }
     },
-    props:{
-        id:String
+    props: {
+        id: String
     },
     methods: {
         async save() {
-            console.log("编辑：",this.model)
+            console.log("编辑：", this.model)
             const result = await this.$http.put(`restful/goods/${this.id}`, this.model)
             console.log(result);
             this.$message({
@@ -50,24 +51,24 @@ export default {
             this.$router.push('/goods/list')
         },
 
-         // 获取物品数据详情
-        async fetch(){
+        // 获取物品数据详情
+        async fetch() {
             const result = await this.$http.get(`restful/goods/detail/${this.id}`)
             console.log(result);
             // this.category.name=result.data.name
-            this.model=result.data
+            this.model = result.data
         },
-         onSuccess(res){
+        onSuccess(res) {
             console.log(res)
-            this.$set(this.model,'icon',res.url)
+            this.$set(this.model, 'icon', res.url)
             // this.model.icon = res.url;
         },
 
-        beforeUpload(res){
-            console.log("上传之前",res)
+        beforeUpload(res) {
+            console.log("上传之前", res)
         }
     },
-    created () {
+    created() {
         this.fetch()
     },
 };
