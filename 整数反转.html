@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // 邮箱规则
+        //example: libing4_qq@zhihu163.com
+
+        //规则：  字母 数字 下划线 @ 字母 数字 . 字母
+
+        // let reg = /^\w+@[a-zA-Z0-9]+\.[a-zA-Z]{2,4}$/g;
+
+        // let email = "lbDding@ZZ163.com";
+        // let res = reg.test(email);
+
+        // console.log(res)
+
+        //--------------------分隔线----------------------------
+
+        // 给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。
+        // 示例 1:
+        // 输入: 123
+        // 输出: 321
+
+        // 示例 2:
+        // 输入: -123
+        // 输出: -321
+        // 注意:
+        // 假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。
+
+
+        function reverse(num) {
+            //1.首先把数字转成字符串 
+            let str = num.toString()
+                //2.把字符串 分割成数组
+            let arr = str.split('')
+
+            if (arr[0] !== '-') {
+                // 正数情况下 数组进行反转
+                let result = Number(arr.reverse().join(''))
+
+                if (result < Math.pow(2, 31) && result > Math.pow(-2, 31)) {
+                    return result
+                } else {
+                    return 0
+                }
+
+            } else if (arr[0] === "-") {
+                //负数情况下 先把负号删除掉， 在进行反转
+                arr.shift();
+
+                let result = Number(arr.reverse().join(''))
+                if (result < Math.pow(2, 31) && result > Math.pow(-2, 31)) {
+                    return ~result + 1
+                } else {
+                    return 0
+                }
+
+            }
+        }
+
+        console.log(reverse(-12340))
+    </script>
+</body>
+
+</html>
