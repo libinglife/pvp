@@ -28,3 +28,20 @@ ul {
 li {
     display: inline-block;
 }
+
+//定义样式工具类
+// 字体颜色
+$colors:("primary":#db9e3f, "white":#fff, "dark-1":#343440, "dark":#999, "block":#000);
+@each $colorKey,
+$colorVal in $colors {
+    .font-#{$colorKey} {
+        color: $colorVal;
+    }
+}
+
+// 居中类
+@each $var in (left, center, right) {
+    .text-#{$var} {
+        text-align: $var;
+    }
+}
