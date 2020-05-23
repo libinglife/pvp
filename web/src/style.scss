@@ -38,7 +38,7 @@ $colorVal in $colors {
     }
 }
 
-// 文字居中
+// 居中类
 @each $var in (left, center, right) {
     .text-#{$var} {
         text-align: $var;

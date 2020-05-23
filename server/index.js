@@ -41,7 +41,6 @@ app.use(async(err, req, res, next) => {
     })
 })
 
-
 app.listen(3002, () => {
     console.log("localhost:3002")
 })
