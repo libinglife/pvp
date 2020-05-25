@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import App from './App.vue'
-
-Vue.config.productionTip = false
+import router from './router'
 
 import './style.scss'
 
+Vue.config.productionTip = false
+
 new Vue({
-    render: h => h(App),
+    router,
+    render: h => h(App)
 }).$mount('#app')
