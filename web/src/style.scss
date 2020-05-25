@@ -63,8 +63,16 @@ $colorVal in $colors {
 // 居中类
 @each $var in (left, center, right) {
     .text-#{$var} {
-        text-align: $var;
+        text-align: $var !important;
     }
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.h-100 {
+    height: 100%;
 }
 
 // flex 布局类
