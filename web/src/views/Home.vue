@@ -22,7 +22,7 @@
       <div class="nav-icon bg-white  d-flex flex-warp pt-3">
         <div
           class="nav-item text-center mt-2 mb-3"
-          v-for="(navName, index) in navList"
+          v-for="(navName, index) in iconNavList"
           :key="navName"
         >
           <i class="sprite py-3" :class="getNavClas(index)"></i>
@@ -35,35 +35,37 @@
       </div>
     </div>
 
-    <!-- nav list of end  -->
-    <m-card title="新闻资讯" iconName="menu" :navList="newNavList">
-        <!-- 卡片内容 -->
-         <swiper>
-            <swiper-slide v-for="navItem in 5" :key="navItem">
-               <div class="py-2" v-for="index in 5" :key="index">
-                    <span>[活动]</span>
-                    <span>|</span>
-                    <span>5月26日全服不停机更新公告</span>
-                    <span>05/25</span>
-                </div>
-            </swiper-slide>
-        </swiper>
-    </m-card>
-    <m-card title="英雄列表" iconName="Hero-copy" :navList="herosNavList">
-         <!-- 卡片内容 -->
-         <swiper>
-            <swiper-slide v-for="navItem in herosNavList" :key="navItem">
-               <div class="py-2" v-for="index in 5" :key="index">
+    <!-- nav-icon list of end  -->
+    <m-list-card title="新闻资讯" iconName="menu" :navList="newsNavList">
+      <template #content="{ contentData }">
+        <div
+          class="py-2"
+          v-for="(item, index) in contentData.dataList"
+          :key="index"
+        >
+          <span>[{{ item.type }}]</span>
+          <span>|</span>
+          <span>{{ item.content }}</span>
+          <span>{{ item.time }}</span>
+        </div>
+      </template>
+    </m-list-card>
 
-                   <!-- 暂停在这里 -->
-                   <img src="" alt="">
-                   {{navItem}}
-                </div>
-            </swiper-slide>
-        </swiper>
-    </m-card>
-
-   
+    <!-- list-card -->
+    <m-list-card title="新闻资讯1" iconName="Hero-copy" :navList="newsNavList">
+      <template v-slot:content="{ contentData }">
+        <div
+          class="py-2"
+          v-for="(item, index) in contentData.dataList"
+          :key="index"
+        >
+          <span>[{{ item.type }}]</span>
+          <span>|</span>
+          <span>{{ item.content }}</span>
+          <span>{{ item.time }}</span>
+        </div>
+      </template>
+    </m-list-card>
 
     <p>dsfdddddddddddddd</p>
     <p>dsfdddddddddddddd</p>
@@ -108,7 +110,7 @@ export default {
           el: ".swiper-pagination",
         },
       },
-      navList: [
+      iconNavList: [
         "爆料站",
         "故事站",
         "周边商城",
@@ -123,22 +125,59 @@ export default {
         "无限王者团",
         "创意互动营",
       ],
-      newNavList:[
-          "热门",
-          "新闻",
-          "公告",
-          "活动",
-          "赛事",
+      newsNavList: [
+        {
+          title: "热门",
+          dataList: new Array(5).fill({}).map(() => {
+            return {
+              type: "热门",
+              content: "5月26日全服不停机更新公告",
+              time: "05/27",
+            };
+          }),
+        },
+        {
+          title: "新闻",
+          dataList: new Array(5).fill({}).map(() => {
+            return {
+              type: "新闻",
+              content: "5月26日全服不停机更新公告",
+              time: "05/27",
+            };
+          }),
+        },
+        {
+          title: "公告",
+          dataList: new Array(5).fill({}).map(() => {
+            return {
+              type: "公告",
+              content: "5月26日全服不停机更新公告",
+              time: "05/27",
+            };
+          }),
+        },
+        {
+          title: "活动",
+          dataList: new Array(5).fill({}).map(() => {
+            return {
+              type: "活动",
+              content: "5月26日全服不停机更新公告",
+              time: "05/27",
+            };
+          }),
+        },
+        {
+          title: "赛事",
+          dataList: new Array(5).fill({}).map(() => {
+            return {
+              type: "赛事",
+              content: "5月26日全服不停机更新公告",
+              time: "05/27",
+            };
+          }),
+        },
       ],
-      herosNavList:[
-          "热门",
-          "战士",
-          "法师",
-          "坦克",
-          "刺客",
-          "射手",
-          "辅助",
-      ]
+      herosNavList: ["热门", "战士", "法师", "坦克", "刺客", "射手", "辅助"],
     };
   },
   methods: {
