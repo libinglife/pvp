@@ -7,7 +7,7 @@ Vue.use(VueRouter)
 
 const routes = [{
         path: '/',
-        name: 'Main',
+        // name: 'Main',
         component: Main,
         children: [{
             path: '/',
