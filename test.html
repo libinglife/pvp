@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let arr = ["公告", "新闻", "赛事", "活动"]
+        let arr = [{
+            name: "李兵",
+            num: 0
+        }, {
+            name: "李兵",
+            num: 0
+        }, {
+            name: "李兵",
+            num: 0
+        }, {
+            name: "李兵",
+            num: 0
+        }]
+
+        //  ["公告", "新闻", "赛事", "活动"]
+        //  ["赛事", "活动", "新闻", "公告"]
+        //  ["赛事", "新闻", "公告", "活动"]
+        //  ["活动", "赛事", "新闻", "公告"]
+
+
+        // ["公告", "新闻", "赛事", "活动"]
+
+        // ["赛事", "活动", "新闻", "公告"]
+
+        // let num = Math.random() - 0.5;
+        // console.log(num)
+
+        // let res = arr.sort((a, b) => num);
+        // console.log(res);
+
+        arr.map((item, index) => {
+            item.num = index
+            return item
+        })
+        console.log(arr)
+    </script>
+</body>
+
+</html>
