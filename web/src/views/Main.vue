@@ -35,3 +35,14 @@ export default {
   components: {},
 };
 </script>
+
+<style lang="scss">
+// 固定定位页面头部
+.topBar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+</style>

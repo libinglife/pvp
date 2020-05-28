@@ -26,16 +26,20 @@ app.get('/', async(req, res) => {
     res.send("首页")
 })
 
-// 调用路由admin
+// admin 管理后台 调用路由
 require('./router/admin/index')(app)
 require('./router/upload.js')(app)
-
-// 登录路由
+    // 登录路由
 require('./router/admin/login')(app)
+
+
+// web 前端页面路由
+require('./router/web/index')(app)
+
 
 // 错误处理函数
 app.use(async(err, req, res, next) => {
-    console.log("错误：", err.status);
+    console.log("捕获错误：", err.status);
     res.status(err.status || 500).send({
         message: err.message
     })
