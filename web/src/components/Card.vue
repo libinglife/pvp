@@ -14,9 +14,9 @@
           :class="{ 'nav-active': actived == index }"
           v-for="(navItme, index) in navList"
           :key="index"
-          @click="actived = index"
+          @click="navChange(index)"
         >
-          <span>{{ navItme.title }}</span>
+          <span>{{ navItme.name }}</span>
         </div>
       </div>
 
@@ -32,12 +32,18 @@ export default {
     title: { type: String, required: true },
     iconName: { type: String, required: true },
     navList: { type: Array, required: true },
-    // actived: { type: Number, value: 0 },
+    actived: { type: Number, value: 0 },
   },
   data() {
     return {
-      actived: 0,
+      //   actived: 0,
     };
+  },
+  methods: {
+    navChange(index) {
+      //  向父级发送事件
+      this.$emit("navChange", index);
+    },
   },
 };
 </script>

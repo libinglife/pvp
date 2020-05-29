@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
     body: {
         type: String
     },
-    //英雄分类
+    //所属分类
     categories: [{
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Category'

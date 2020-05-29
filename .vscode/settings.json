@@ -5,13 +5,18 @@
         "editor.selectionBackground": "#e41fda7e", //选中高亮
     },
     "editor.tokenColorCustomizations": {
-        "comments": "#", //注释
-        "keywords": "#0be6af", // 关键字
-        "variables": "#0fc8f7", // 变量名
+        "comments": "#80a6b9", //注释
+        // "keywords": "#0be6af", // 关键字
+        // "keywords": "#008b8b", // 关键字
+        "variables": "#06eccd", // 变量名
         // "strings": "#18170fbd", // 字符串
-        "functions": "#fc5bccc9", // 函数名
+        // "functions": "#fc5bccc9", // 函数名
         "numbers": "#ff8181" // 数字
     },
-    
+    "rest-client.excludeHostsForProxy": [
+
+    ],
+
+
 
 }

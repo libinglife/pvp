@@ -29,7 +29,8 @@ app.get('/', async(req, res) => {
 // admin 管理后台 调用路由
 require('./router/admin/index')(app)
 require('./router/upload.js')(app)
-    // 登录路由
+
+// 登录路由
 require('./router/admin/login')(app)
 
 

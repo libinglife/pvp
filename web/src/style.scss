@@ -31,6 +31,12 @@ li {
     display: inline-block;
 }
 
+.text-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 // 设置不同的字体
 $base-font-size: 1rem;
 $font-sizes: (xm: 0.7692, //10px
