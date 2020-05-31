@@ -13,10 +13,5 @@
         // "functions": "#fc5bccc9", // 函数名
         "numbers": "#ff8181" // 数字
     },
-    "rest-client.excludeHostsForProxy": [
-
-    ],
-
-
-
+   
 }

@@ -9,6 +9,7 @@ module.exports = (app) => {
 
     let Category = mongoose.model("Category");
     let Article = mongoose.model("Article");
+    let Hero = mongoose.model('Hero')
 
     //新闻页面数据的导入
     router.get("/news/init", async(req, res) => {
@@ -142,6 +143,113 @@ module.exports = (app) => {
 
         res.send(cats);
     });
+
+    // 新闻详情
+    router.get("/news/:id", async(req, res) => {
+        // console.log("新闻id", req.params.id);
+        let newsId = req.params.id;
+        let resultData = await Article.findById(newsId).lean();
+
+        // 添加两条相关资讯
+        resultData.relate = await Article.find().where({
+            categories: {
+                $in: resultData.categories
+            }
+        }).limit(2)
+
+        res.send(resultData)
+    })
+
+    //英雄数据导入接口
+    router.get("/heroes/init", async(req, res) => {
+
+        let heroesData = require("../../initData/heroes.json");
+
+        // 使用先查找出英雄所有分类
+        let heroesTypes = await Category.find().where({
+            parent: await Category.findOne({ name: '英雄分类' })
+        })
+
+        console.log("英雄分类：---》", heroesTypes)
+
+        let resultData = [];
+        // 处理数据准备插入
+        heroesData.forEach(async(catItem) => {
+
+            // 先根据英雄分类名称找出所属分类id  效率不高废弃
+            // 使用先查找出所有分类，再根据 type 进行匹配分类
+            // let cats = await Category.findOne({
+            //     name: catItem.type
+            // })
+
+            catItem.heroes.map(hero => {
+                resultData.push({
+                    name: hero.name,
+                    avatar: hero.avatar,
+                    // categories: [cats]
+                    // 过滤所属分类
+                    categories: heroesTypes.filter(heroesType => heroesType.name == catItem.type)
+                })
+            })
+        })
+
+        // 先删除初始数据
+        await Hero.deleteMany();
+        // 插入格式化好的数据
+
+        await Hero.insertMany(resultData);
+
+        res.send(await Hero.find())
+    })
+
+    // 英雄列表 供前端使用
+    router.get('/heroes', async(req, res) => {
+        // 1.先查出英雄分类
+        let heroParent = await Category.findOne({
+            name: "英雄分类"
+        });
+
+        // 2.使用聚合查询查出所属分类下的具体英雄列表
+        let resultData = await Category.aggregate([{
+                $match: {
+                    // 属于英雄的分类
+                    parent: heroParent._id
+                },
+            },
+            {
+                $lookup: {
+                    //联表查询 英雄表
+                    from: "heroes",
+                    localField: "_id",
+                    foreignField: "categories",
+                    as: "heroList",
+                },
+            },
+        ])
+
+        // 3.添加热门分类
+        // 3.1获取英雄子分类的所属id
+        let heroesId = resultData.map(heroes => heroes._id);
+
+        let hotHeroes = await Hero.find().where({
+            categories: {
+                $in: heroesId
+            }
+        }).limit(10);
+
+        resultData.unshift({
+            name: "热门",
+            heroList: hotHeroes
+        })
+
+        res.send(resultData)
+    })
+
+    //英雄详情
+    router.get("/hero/:id", async(req, res) => {
+        let result = await Hero.findById(req.params.id);
+        res.send(result)
+    })
 
     app.use("/web/api", router);
 };

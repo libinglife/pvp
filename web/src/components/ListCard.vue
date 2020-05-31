@@ -8,7 +8,7 @@
       @navChange="onNavChange"
     >
       <!-- 卡片内容 -->
-      <swiper ref="mySwiper" @slide-change="onSlideChange">
+      <swiper ref="mySwiper" :options="{autoHeight:true}" @slide-change="onSlideChange">
         <swiper-slide v-for="(navItem, index) in navList" :key="index">
           <slot name="content" :contentData="navItem"></slot>
         </swiper-slide>

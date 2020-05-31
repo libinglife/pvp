@@ -45,6 +45,52 @@
             return item
         })
         console.log(arr)
+
+
+        let cats = [{
+            _id: '5ea84d57224dae59e0408735',
+            name: '战士',
+            parent: '5ea84c99224dae59e0408733',
+            __v: 0
+        }, {
+            _id: '5ea84d75224dae59e0408737',
+            name: '法师',
+            parent: '5ea84c99224dae59e0408733',
+            __v: 0
+        }, {
+            _id: '5ed1f63fd1644f859cd520df',
+            name: '坦克',
+            parent: '5ea84c99224dae59e0408733',
+            __v: 0
+        }, {
+            _id: '5ea84d5f224dae59e0408736',
+            name: '刺客',
+            parent: '5ea84c99224dae59e0408733',
+            __v: 0
+        }, {
+            _id: '5eb4293733f6454334aba5d9',
+            name: '射手',
+            parent: '5ea84c99224dae59e0408733',
+            __v: 0
+        }, {
+            _id: '5ed1f69746e37584cc79cdb6',
+            name: '辅助',
+            parent: '5ea84c99224dae59e0408733',
+            __v: 0
+        }];
+
+
+
+        let catName = "辅助";
+
+
+        let resCat = cats.filter(item => {
+            if (item.name == catName) {
+                console.log("结果:", item._id)
+                return 1
+            }
+        })
+        console.log(resCat)
     </script>
 </body>
 

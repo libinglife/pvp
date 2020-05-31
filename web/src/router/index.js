@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
 import Home from '../views/Home.vue'
 
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -13,8 +14,22 @@ const routes = [{
             path: '/',
             name: 'Home',
             component: Home
+        }, {
+            path: "/article/:id",
+            name: 'Article',
+            props: true,
+            component: () =>
+                import ('../views/Article.vue')
         }]
     },
+    {
+        path: "/hero/:id",
+        name: 'HeroDetail',
+        props: true,
+        component: () =>
+            import ('../views/HeroDetail.vue')
+    },
+
     {
         path: '/about',
         name: 'About',
