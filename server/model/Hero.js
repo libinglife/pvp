@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const schema = new mongoose.Schema({
     name: String,
     avatar: { type: String },
+    banner: { type: String },
     title: { type: String },
     //英雄分类
     categories: [{ type: mongoose.SchemaTypes.ObjectId, ref: 'Category' }],
@@ -16,6 +17,8 @@ const schema = new mongoose.Schema({
         name: { type: String },
         description: { type: String },
         tips: { type: String },
+        dealy: { type: String },
+        expend: { type: String },
     }],
 
     // 顺风出装
@@ -30,6 +33,16 @@ const schema = new mongoose.Schema({
     partners: [{
         hero: { type: mongoose.SchemaTypes.ObjectId, ref: 'Hero' },
         description: { type: String }
+    }],
+    //被谁克制
+    holdback: [{
+        hero: { type: mongoose.SchemaTypes.ObjectId, ref: "Hero" },
+        description: { type: String }
+    }],
+    // 克制谁
+    overcome: [{
+        hero: { type: mongoose.SchemaTypes.ObjectId, ref: "Hero" },
+        descrption: { type: String }
     }]
 })
 

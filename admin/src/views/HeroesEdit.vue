@@ -36,11 +36,15 @@
                 </el-form-item>
 
                 <el-form-item label="英雄图片">
-                    <el-upload class="avatar-uploader" 
-                    :action="uploadUrl" 
-                    :headers="getAuthHeader()"
-                    :show-file-list="false" :on-success="onSuccess" :before-upload="beforeUpload">
+                    <el-upload class="avatar-uploader" :action="uploadUrl" :headers="getAuthHeader()" :show-file-list="false" :on-success="res=>$set(model,'avatar',res.url)" :before-upload="beforeUpload">
                         <img v-if="model.avatar" :src="model.avatar" class="avatar" />
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                    </el-upload>
+                </el-form-item>
+
+                <el-form-item label="英雄banner图">
+                    <el-upload class="avatar-uploader" :action="uploadUrl" :headers="getAuthHeader()" :show-file-list="false" :on-success="res=>$set(model,'banner',res.url)" :before-upload="beforeUpload">
+                        <img v-if="model.banner" :src="model.banner" class="heroBanner" />
                         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                     </el-upload>
                 </el-form-item>
@@ -78,18 +82,24 @@
                             <el-input v-model="item.name"></el-input>
                         </el-form-item>
                         <el-form-item label="技能图标">
-                            <el-upload class="avatar-uploader" 
-                             :action="uploadUrl" 
-                             :headers="getAuthHeader()"
-                            :onSuccess="res=>$set(item,'icon',res.url)" :show-file-list="false">
+                            <el-upload class="avatar-uploader" :action="uploadUrl" :headers="getAuthHeader()" :onSuccess="res=>$set(item,'icon',res.url)" :show-file-list="false">
                                 <img v-if="item.icon" :src="item.icon" class="avatar" />
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
+                        </el-form-item>
+                         <el-form-item label="冷却值">
+                            <el-input type="text" v-model="item.dealy"></el-input>
+                        </el-form-item>
+
+                        <el-form-item label="消耗">
+                            <el-input type="text" v-model="item.expend"></el-input>
+                        
                         </el-form-item>
                         <el-form-item label="技能描述">
                             <el-input type="textarea" v-model="item.description"></el-input>
                         </el-form-item>
 
+                       
                         <el-form-item label="技能提示">
                             <el-input type="textarea" v-model="item.tips"></el-input>
                         </el-form-item>
@@ -103,8 +113,37 @@
                 </el-row>
 
             </el-tab-pane>
+
+              <el-tab-pane label="英雄关系" name="heroRelation">
+
+                <el-button size="small" type="primary" @click="model.partners.push({})"> <i class="el-icon-plus"></i> 添加关系英雄</el-button>
+
+                <el-row type="flex" style="flex-wrap:wrap">
+                    <el-col :md="12" v-for="(item,index) in model.partners" :key="index">
+
+                        <el-form-item label="最佳搭档">
+                            <el-upload class="avatar-uploader" :action="uploadUrl" :headers="getAuthHeader()" :onSuccess="res=>$set(item,'icon',res.url)" :show-file-list="false">
+                                <img v-if="item.icon" :src="item.icon" class="avatar" />
+                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                            </el-upload>
+                        </el-form-item>
+                        
+                        <el-form-item label="关系描述">
+                            <el-input type="textarea" v-model="item.description"></el-input>
+                        </el-form-item>
+
+                       
+                        <el-form-item label="">
+                            <el-button size="small" type="danger" @click="model.skills.splice(index,1)">删除</el-button>
+                        </el-form-item>
+
+                    </el-col>
+
+                </el-row>
+
+            </el-tab-pane>
         </el-tabs>
-       
+
         <el-form-item style="margin-top:1rem">
             <el-button type="primary" native-type="submit">保存</el-button>
         </el-form-item>
@@ -120,18 +159,18 @@
 export default {
     data() {
         return {
-            activeName: 'skills',
+            activeName: 'base',
             model: {
                 name: '',
                 avatar: '',
                 categories: [],
                 scores: {},
-                skills:[]
+                skills: []
 
             },
 
             herosCategory: [], //分类
-            goods:[], //装备 
+            goods: [], //装备 
         }
     },
     props: {
@@ -146,7 +185,7 @@ export default {
                 message: '恭喜你，编辑成功',
                 type: 'success'
             });
-            this.$router.push('/heroes/list')
+            // this.$router.push('/heroes/list')
         },
 
         // 获取英雄数据详情

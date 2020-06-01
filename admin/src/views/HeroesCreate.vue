@@ -133,13 +133,18 @@
     height: 3rem;
     display: block;
 }
+.heroBanner{
+    display: block;
+    width: 20rem;
+    height: auto;
+}
 </style>
 
 <script>
 export default {
     data() {
         return {
-            activeName: 'skills',
+            activeName: 'base',
             model: {
                 name: "",
                 avatar: "",

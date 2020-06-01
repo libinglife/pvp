@@ -53,7 +53,7 @@ module.exports = app => {
             }
         }
 
-        const result = await req.Model.find().setOptions(queryOptions).limit(100)
+        const result = await req.Model.find().setOptions(queryOptions).limit(150)
 
         res.send(result)
     })
