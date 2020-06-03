@@ -87,19 +87,18 @@
                                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                             </el-upload>
                         </el-form-item>
-                         <el-form-item label="冷却值">
+                        <el-form-item label="冷却值">
                             <el-input type="text" v-model="item.dealy"></el-input>
                         </el-form-item>
 
                         <el-form-item label="消耗">
                             <el-input type="text" v-model="item.expend"></el-input>
-                        
+
                         </el-form-item>
                         <el-form-item label="技能描述">
                             <el-input type="textarea" v-model="item.description"></el-input>
                         </el-form-item>
 
-                       
                         <el-form-item label="技能提示">
                             <el-input type="textarea" v-model="item.tips"></el-input>
                         </el-form-item>
@@ -114,33 +113,85 @@
 
             </el-tab-pane>
 
-              <el-tab-pane label="英雄关系" name="heroRelation">
+            <el-tab-pane label="英雄关系" name="heroRelation">
 
-                <el-button size="small" type="primary" @click="model.partners.push({})"> <i class="el-icon-plus"></i> 添加关系英雄</el-button>
+                <div>
+                    <el-button size="small" type="primary" @click="model.partners.push({})"> <i class="el-icon-plus"></i> 添加最佳搭档英雄</el-button>
 
-                <el-row type="flex" style="flex-wrap:wrap">
-                    <el-col :md="12" v-for="(item,index) in model.partners" :key="index">
+                    <el-row type="flex" style="flex-wrap:wrap">
+                        <el-col :md="12" v-for="(item,index) in model.partners" :key="index">
 
-                        <el-form-item label="最佳搭档">
-                            <el-upload class="avatar-uploader" :action="uploadUrl" :headers="getAuthHeader()" :onSuccess="res=>$set(item,'icon',res.url)" :show-file-list="false">
-                                <img v-if="item.icon" :src="item.icon" class="avatar" />
-                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                            </el-upload>
-                        </el-form-item>
-                        
-                        <el-form-item label="关系描述">
-                            <el-input type="textarea" v-model="item.description"></el-input>
-                        </el-form-item>
+                            <el-form-item label="最佳搭档" class="mt-2">
+                                <el-select v-model="item.hero" filterable placeholder="请选择英雄">
+                                    <el-option v-for="hero in allHero" :key="hero._id" :label="hero.name" :value="hero._id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
 
-                       
-                        <el-form-item label="">
-                            <el-button size="small" type="danger" @click="model.skills.splice(index,1)">删除</el-button>
-                        </el-form-item>
+                            <el-form-item label="关系描述">
+                                <el-input type="textarea" v-model="item.description"></el-input>
+                            </el-form-item>
 
-                    </el-col>
+                            <el-form-item label="">
+                                <el-button size="small" type="danger" @click="model.partners.splice(index,1)">删除</el-button>
+                            </el-form-item>
 
-                </el-row>
+                        </el-col>
 
+                    </el-row>
+                </div>
+
+                <div>
+                    <el-button size="small" type="primary" @click="model.holdback.push({})"> <i class="el-icon-plus"></i>添加被克制英雄</el-button>
+
+                    <el-row type="flex" style="flex-wrap:wrap">
+                        <el-col :md="12" v-for="(item,index) in model.holdback" :key="index">
+
+                            <el-form-item label="被谁克制" class="mt-2">
+                                <el-select v-model="item.hero" filterable placeholder="请选择英雄">
+                                    <el-option v-for="hero in allHero" :key="hero._id" :label="hero.name" :value="hero._id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+
+                            <el-form-item label="关系描述">
+                                <el-input type="textarea" v-model="item.description"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="">
+                                <el-button size="small" type="danger" @click="model.holdback.splice(index,1)">删除</el-button>
+                            </el-form-item>
+
+                        </el-col>
+
+                    </el-row>
+                </div>
+
+                <div>
+                    <el-button size="small" type="primary" @click="model.overcome.push({})"> <i class="el-icon-plus"></i>添加克制英雄</el-button>
+
+                    <el-row type="flex" style="flex-wrap:wrap">
+                        <el-col :md="12" v-for="(item,index) in model.overcome" :key="index">
+
+                            <el-form-item label="克制谁" class="mt-2">
+                                <el-select v-model="item.hero" filterable placeholder="请选择英雄">
+                                    <el-option v-for="hero in allHero" :key="hero._id" :label="hero.name" :value="hero._id">
+                                    </el-option>
+                                </el-select>
+                            </el-form-item>
+
+                            <el-form-item label="关系描述">
+                                <el-input type="textarea" v-model="item.description"></el-input>
+                            </el-form-item>
+
+                            <el-form-item label="">
+                                <el-button size="small" type="danger" @click="model.overcome.splice(index,1)">删除</el-button>
+                            </el-form-item>
+
+                        </el-col>
+
+                    </el-row>
+                </div>
             </el-tab-pane>
         </el-tabs>
 
@@ -165,12 +216,16 @@ export default {
                 avatar: '',
                 categories: [],
                 scores: {},
-                skills: []
+                skills: [],
+                partners: [], //搭档谁
+                holdback: [], //被谁克制
+                overcome: [], //克制谁
 
             },
 
             herosCategory: [], //分类
             goods: [], //装备 
+            allHero: [],
         }
     },
     props: {
@@ -215,12 +270,20 @@ export default {
             let result = await this.$http.get('restful/goods');
             // console.log(result)
             this.goods = result.data
+        },
+        // 获取全部英雄
+        async fetchAllHero() {
+            let allHero = await this.$http.get('restful/hero');
+            this.allHero = allHero.data;
+
+            // console.log(allHero)
         }
     },
     created() {
         this.fetch();
         this.fetchGoods();
-        this.fetchHerosCategory()
+        this.fetchHerosCategory();
+        this.fetchAllHero()
     },
 };
 </script>
