@@ -167,7 +167,9 @@ module.exports = (app) => {
 
         // 使用先查找出英雄所有分类
         let heroesTypes = await Category.find().where({
-            parent: await Category.findOne({ name: '英雄分类' })
+            parent: await Category.findOne({
+                name: '英雄分类'
+            })
         })
 
         console.log("英雄分类：---》", heroesTypes)
@@ -194,10 +196,10 @@ module.exports = (app) => {
         })
 
         // 先删除初始数据
-        await Hero.deleteMany();
-        // 插入格式化好的数据
+        // await Hero.deleteMany();
+        // // 插入格式化好的数据
 
-        await Hero.insertMany(resultData);
+        // await Hero.insertMany(resultData);
 
         res.send(await Hero.find())
     })

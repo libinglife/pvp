@@ -8,6 +8,8 @@
 </head>
 
 <body>
+    <script src="http://s.xnimg.cn/a94371/wap/mobile/2017activity/listingPage/wap-page/js/jquery-3.2.1.min.js">
+    </script>
     <script>
         // let arr = ["公告", "新闻", "赛事", "活动"]
         let arr = [{
@@ -91,6 +93,39 @@
             }
         })
         console.log(resCat)
+
+
+
+        function fn(resolve) {
+            setTimeout(() => {
+                resolve(123)
+            }, 1000);
+        }
+
+        let p0 = new Promise(fn).then(res => {
+            console.log(res)
+            return 12
+        });
+        console.log(p0)
+        let p1 = Promise.resolve(p0);
+
+        console.log(p1.then(res => {
+            console.log(res)
+        }))
+    </script>
+
+    <script>
+        $.ajax({
+            url: 'buyCard',
+            type: "post",
+            dataType: "json",
+            success: function(res) {
+                console.log(res)
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
     </script>
 </body>
 
