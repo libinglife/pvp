@@ -197,8 +197,8 @@ module.exports = (app) => {
 
         // 先删除初始数据
         // await Hero.deleteMany();
-        // // 插入格式化好的数据
 
+        // // 插入格式化好的数据
         // await Hero.insertMany(resultData);
 
         res.send(await Hero.find())
@@ -237,7 +237,7 @@ module.exports = (app) => {
             categories: {
                 $in: heroesId
             }
-        }).limit(10);
+        }).skip(10).limit(10);
 
         resultData.unshift({
             name: "热门",

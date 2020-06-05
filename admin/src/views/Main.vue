@@ -69,7 +69,7 @@
             <el-dropdown-item>删除</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
-        <span>王小虎</span>
+        <span>{{username}}</span>
       </el-header>
 
       <el-main>
@@ -99,6 +99,11 @@ export default {
       tableData: [],
       openArr: ["1"] //打开左边菜单，默认为1
     };
+  },
+  computed: {
+      username() {
+          return localStorage.getItem('username') 
+      }
   },
   methods: {
     handleOpen(key, keyPath) {

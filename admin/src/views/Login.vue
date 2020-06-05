@@ -42,6 +42,7 @@ export default {
         
           if(res.data.token){
               localStorage.setItem('token',res.data.token);
+              localStorage.setItem('username',res.data.username);
               this.$router.push('/');
               this.$message({
                   type:'success',
