@@ -44,7 +44,12 @@ module.exports = app => {
 
     // 3.查找分类列表
     router.get('/', async(req, res) => {
-        // console.log(req.Model.modelName)
+
+        let { page, limit } = req.query;
+        page = page || 1;
+        console.log(page, limit);
+
+
         let queryOptions = {}
         if (req.Model.modelName == "Category") {
             // 关联查询父级
@@ -52,10 +57,16 @@ module.exports = app => {
                 populate: 'parent'
             }
         }
+        let count = await req.Model.count();
+        const result = await req.Model.find().setOptions(queryOptions).skip((page - 1) * limit).limit(10)
 
-        const result = await req.Model.find().setOptions(queryOptions).limit(10)
+        if (limit) {
+            res.send({ result, count })
+        } else {
+            res.send(result)
+        }
 
-        res.send(result)
+
     })
 
     // 4.查找分类列表详情

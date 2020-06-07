@@ -1,7 +1,7 @@
 <template>
   <div class="categoryList">
     <h2>英雄列表</h2>
-    <el-table :data="model">
+    <el-table :data="model.result">
       <el-table-column prop="_id" label="id" width="240"> </el-table-column>
       <el-table-column prop="name" label="英雄名称" width="220">
       </el-table-column>
@@ -30,7 +30,10 @@
     <!-- 分页 -->
     <el-row style="margin-top:2rem">
       <el-col :offset="6" :span="16">
-        <el-pagination background layout="prev, pager, next" :total="100">
+        <el-pagination
+        @current-change="changePage"
+        @prev-click ="prevClick"
+         background layout="prev, pager, next" :total="model.count">
         </el-pagination>
       </el-col>
     </el-row>
@@ -43,15 +46,33 @@ export default {
   props: {},
   data() {
     return {
-      model: [],
+      model: {},
+      currentPage:1
     };
   },
 
   methods: {
     // 获取列表数据
     async fetch() {
-      const res = await this.$http.get("restful/heroes");
+      const res = await this.$http.get("restful/heroes",{
+        params:{
+          page:this.currentPage,
+          limit:10
+        }
+      });
       this.model = res.data;
+    },
+
+    // 分页改变
+    changePage(page){
+    
+      this.currentPage = page;
+      this.fetch()
+    },
+    // 上一页暂时用不到
+    prevClick(e){
+      console.log(e);
+      console.log("上一页")
     },
 
     async del(item) {
