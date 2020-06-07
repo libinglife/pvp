@@ -10,4 +10,9 @@
 
 
 ## web端
+1.**web端已基本完成**
 
+
+> 打包完成之后查看dist 文件的命令 
+1.需要安装 npm install -g serve
+2.执行 serve dist

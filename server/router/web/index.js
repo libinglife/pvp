@@ -249,7 +249,7 @@ module.exports = (app) => {
 
     //英雄详情
     router.get("/hero/:id", async(req, res) => {
-        let result = await Hero.findById(req.params.id);
+        let result = await Hero.findById(req.params.id).populate('categories');
         res.send(result)
     })
 

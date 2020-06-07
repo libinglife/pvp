@@ -12,6 +12,14 @@ app.set('secret', 'libing123')
 app.use('/upload', express.static(path.join(__dirname, '/upload')))
     // app.use(express.static(__dirname + '/upload'))
 
+
+//后台页面
+app.use('/admin', express.static(path.join(__dirname, "/admin/")))
+
+// 前端页面（主站）
+app.use('/', express.static(path.join(__dirname, "/web/")))
+
+
 // 接受客户端json数据
 app.use(express.json())
 
